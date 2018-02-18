@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,13 +14,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".app.App">
+
+        <!--
+        Sugar ORM Config
+        <meta-data android:name="DATABASE" android:value="gibdd.db" />
+        <meta-data android:name="VERSION" android:value="2" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example" />
+        -->
+
+        <activity android:name=".ui.gibdd.NewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.gibdd.FavouriteActivity"
+            android:label="@string/title_activity_favourite"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

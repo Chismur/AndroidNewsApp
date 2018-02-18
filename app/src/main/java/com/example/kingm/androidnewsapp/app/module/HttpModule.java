@@ -24,7 +24,7 @@ public class HttpModule {
         return new Retrofit.Builder()
                 .baseUrl(Const.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                //.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 

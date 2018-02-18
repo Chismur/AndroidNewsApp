@@ -1,15 +1,28 @@
 package com.example.kingm.androidnewsapp.app;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Application;
+import com.example.kingm.androidnewsapp.app.module.ContextModule;
+import com.example.kingm.androidnewsapp.app.module.HttpModule;
 
-import com.example.kingm.androidnewsapp.R;
+public class App extends Application {
 
-public class App extends AppCompatActivity {
+    public static AppComponent appComponent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onCreate() {
+        super.onCreate();
+        initAppComponent();
+    }
+
+    public void initAppComponent() {
+        appComponent = DaggerAppComponent
+                .builder()
+                .contextModule(new ContextModule(this))
+                .httpModule(new HttpModule())
+                .build();
+    }
+
+    public static AppComponent getAppComponent() {
+        return appComponent;
     }
 }

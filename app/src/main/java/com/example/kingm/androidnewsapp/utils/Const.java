@@ -6,6 +6,6 @@ package com.example.kingm.androidnewsapp.utils;
 
 public class Const {
 
-    public static final String BASE_URL = "http://www.gibdd.ru/api/json/getUgibdd/";
+    public static final String BASE_URL = "http://www.gibdd.ru/";
     public static final String API_KEY = "";
 }

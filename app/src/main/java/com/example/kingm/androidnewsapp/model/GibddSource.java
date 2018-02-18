@@ -7,28 +7,46 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class GibddSource {
-    //Serialisable name
-    @SerializedName("CODE")
-    private Long code;
+
+    @SerializedName("id")
+    private String id;
+    @SerializedName("updated")
+    private String updated;
+    @SerializedName("value")
+    private String value;
+    @SerializedName("name")
     private String name;
-    private Long index;
-    private String address;
-    private String phone;
+    @SerializedName("description")
+    private String description;
 
-    public GibddSource(Long code, String name, Long index, String address, String phone) {
-        this.code = code;
-        this.name = name;
-        this.index = index;
-        this.address = address;
-        this.phone = phone;
+    private Boolean favourite;
+
+    public GibddSource() {
+        this.favourite = false;
     }
 
-    public Long getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getName() {
@@ -39,27 +57,19 @@ public class GibddSource {
         this.name = name;
     }
 
-    public Long getIndex() {
-        return index;
+    public String getDescription() {
+        return description;
     }
 
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getAddress() {
-        return address;
+    public boolean isFavourite() {
+        return this.favourite;
+    }
+    public void setFavourite(boolean favourite) {
+         this.favourite = favourite;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 }

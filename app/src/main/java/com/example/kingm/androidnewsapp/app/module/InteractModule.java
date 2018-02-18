@@ -1,6 +1,6 @@
 package com.example.kingm.androidnewsapp.app.module;
 
-import com.example.kingm.androidnewsapp.interactor.GibddRepository;
+import com.example.kingm.androidnewsapp.interactor.NewsRepository;
 
 import javax.inject.Singleton;
 
@@ -16,7 +16,7 @@ public class InteractModule {
 
     @Provides
     @Singleton
-    public GibddRepository provideGibddInteract() {
-        return new GibddRepository();
+    public NewsRepository provideGibddInteract() {
+        return new NewsRepository();
     }
 }

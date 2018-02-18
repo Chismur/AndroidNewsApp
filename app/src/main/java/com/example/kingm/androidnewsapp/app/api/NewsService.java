@@ -1,6 +1,9 @@
 package com.example.kingm.androidnewsapp.app.api;
 
+import com.example.kingm.androidnewsapp.model.GibddSource;
 import com.example.kingm.androidnewsapp.model.GibddWeb;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,6 +14,6 @@ import retrofit2.http.GET;
 
 public interface NewsService {
 
-    @GET("api/json/getUgibdd/")
-    Call<GibddWeb> getSource();
+    @GET("api/json/getKBK/")
+    Call<List<GibddSource>> getSource();
 }
