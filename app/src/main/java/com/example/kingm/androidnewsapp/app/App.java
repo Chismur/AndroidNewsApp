@@ -3,8 +3,9 @@ package com.example.kingm.androidnewsapp.app;
 import android.app.Application;
 import com.example.kingm.androidnewsapp.app.module.ContextModule;
 import com.example.kingm.androidnewsapp.app.module.HttpModule;
+import com.orm.SugarApp;
 
-public class App extends Application {
+public class App extends SugarApp {
 
     public static AppComponent appComponent;
 

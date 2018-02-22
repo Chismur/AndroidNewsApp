@@ -5,14 +5,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.kingm.androidnewsapp.ui.gibdd.NewsActivity">
 
-    <include
-        android:id="@+id/toolbar_news"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_news_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/recycler_news_list" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,10 +1,10 @@
 package com.example.kingm.androidnewsapp.ui.gibdd;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -26,6 +26,10 @@ import butterknife.ButterKnife;
 
 public class NewsActivity extends MvpAppCompatActivity implements NewsView {
 
+    //true = NEWS
+    //false = FAVORITE
+    private Boolean action;
+
     @InjectPresenter
     NewsPresenter newsPresenter;
 
@@ -46,12 +50,28 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsView {
         initRecyclerView();
         initToolbar();
 
+        action = true;
+        setTitle("News");
+
         newsPresenter.getRequestNews();
+//        newsAdapter.compareLists(newsPresenter.getListFromDB());
+//        try {
+//            Log.v("govnishe", "im in try");
+//            newsAdapter.compareLists(newsPresenter.getListFromDB());
+//        } catch (Exception n) {
+//            Log.e("error_gibdd", n.getMessage());
+//        }
 
     }
 
     private void initRecyclerView() {
-        newsAdapter = new NewsAdapter();
+        newsAdapter = new NewsAdapter(new NewsAdapter.LongClickListener() {
+            @Override
+            public void longClick(GibddSource source, int position) {
+                newsPresenter.clickedFavourite(source);
+                newsAdapter.refreshItem(position);
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(newsAdapter);
@@ -59,6 +79,11 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsView {
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void setTitleToolbar(String title) {
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
     }
 
@@ -72,10 +97,17 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_news:
+                setTitle("News");
+                action = true;
+                //запрос к Service и перерисовка
+                newsPresenter.getRequestNews();
                 break;
             case R.id.action_favourite:
-                startActivity(new Intent(this, FavouriteActivity.class));
-                return true;
+                setTitle("Favourite");
+                //запрос в бд и перерисовка
+                action = false;
+                newsPresenter.showDataFromDB();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -83,6 +115,7 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsView {
     @Override
     public void showResult(List<GibddSource> list) {
         newsAdapter.update(list);
+        newsAdapter.compareLists(newsPresenter.getListFromDB());
     }
 
     @Override
