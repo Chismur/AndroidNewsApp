@@ -67,24 +67,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
         this.notifyDataSetChanged();
     }
 
-    public void refreshItem(int position) {
-        notifyItemChanged(position);
-    }
 
     public void compareLists(List<GibddSource> favouriteList) {
         //TODO compareLists
-        Log.e("ID_FAV", "hello im in");
-        Log.e("ID_FAV", String.valueOf(list.size()) + " " + favouriteList.size());
         for (int i = 0; i < this.list.size(); i++) {
             for (GibddSource favourite : favouriteList) {
-                Log.e("ID_FAV", String.valueOf(list.get(i).getId()) + " ?= " + String.valueOf(favourite.getIdFromJson()));
+//                Log.e("ID_FAV", String.valueOf(list.get(i).getId()) + " ?= " + String.valueOf(favourite.getIdFromJson()));
                 if (Objects.equals(list.get(i).getId(), favourite.getIdFromJson())) {
                     list.get(i).changeFavourite();
-                    Log.e("ID_FAV", "changed " + favourite.getIdFromJson());
-                    refreshItem(i);
+                    notifyItemChanged(i);
                 }
             }
         }
+    }
+
+    public void changeFavourite(int position) {
+        list.get(position).changeFavourite();
+        notifyItemChanged(position);
+    }
+
+    public void deleteItem(int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
     }
 
     public interface LongClickListener {

@@ -50,17 +50,18 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
         });
     }
 
-    public void clickedFavourite(GibddSource source) {
+    public void clickedFavourite(GibddSource source, int position) {
         ////////////////////////////
         source.setIdFromJson(source.getId());
         source.setId(null);
         ////////////////////////////
         if (source.isFavourite()) {
+            getViewState().changeFavourite(position);
             deleteFavourite(findIdFromDB(source.getIdFromJson()));
         } else {
+            getViewState().changeFavourite(position);
             saveFavourite(source);
         }
-        source.changeFavourite();
     }
 
     public void saveFavourite(GibddSource source) {
@@ -68,21 +69,15 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
     }
 
     public Long findIdFromDB(Long idFromJson) {
-        return GibddSource.findById(GibddSource.class, idFromJson).getId();
+        return GibddSource.find(GibddSource.class, "ID_FROM_JSON = ?", String.valueOf(idFromJson)).get(0).getId();
     }
 
     public void deleteFavourite(Long id) {
         GibddSource source = GibddSource.findById(GibddSource.class, id);
-        Log.e("DEL_SOURCE", String.valueOf(id));
         source.delete();
     }
 
     public List<GibddSource> getListFromDB() {
         return GibddSource.listAll(GibddSource.class);
-    }
-
-    public void showDataFromDB() {
-        List<GibddSource> gibddSources = GibddSource.listAll(GibddSource.class);
-        getViewState().showResult(gibddSources);
     }
 }

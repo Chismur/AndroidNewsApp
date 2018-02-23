@@ -15,5 +15,6 @@ import java.util.List;
 public interface NewsView extends MvpView {
 
     void showResult(List<GibddSource> list);
+    void changeFavourite(int position);
     void showToast(String message);
 }

@@ -1,11 +1,11 @@
 package com.example.kingm.androidnewsapp.ui.gibdd;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,16 +21,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by kingm on 18.02.2018.
- */
-
-public class NewsActivity extends MvpAppCompatActivity implements NewsView {
+public class FavouriteActivity extends MvpAppCompatActivity implements NewsView {
 
     @InjectPresenter
-    NewsPresenter newsPresenter;
+    FavouritePresenter favouritePresenter;
 
-    @BindView(R.id.recycler_news_list)
+    @BindView(R.id.recycler_favourite_list)
     RecyclerView recyclerView;
 
     Toolbar toolbar;
@@ -40,22 +36,25 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
+        setContentView(R.layout.activity_favourite);
 
         ButterKnife.bind(this);
 
+
         initRecyclerView();
         initToolbar();
-        setTitle("News");
+        setTitle("Favourites");
 
-        newsPresenter.getRequestNews();
+        favouritePresenter.getFavouritesFromDb();
+
     }
 
     private void initRecyclerView() {
         newsAdapter = new NewsAdapter(new NewsAdapter.LongClickListener() {
             @Override
             public void longClick(GibddSource source, int position) {
-                newsPresenter.clickedFavourite(source, position);
+                favouritePresenter.clickedFavourite(source);
+                newsAdapter.deleteItem(position);
             }
         });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -78,25 +77,24 @@ public class NewsActivity extends MvpAppCompatActivity implements NewsView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_news:
-                showToast("You are in News");
+                //переход в NewsActivity
+                startActivity(new Intent(this, NewsActivity.class));
                 break;
             case R.id.action_favourite:
-                //переход в FavouriteActivity
-                startActivity(new Intent(this, FavouriteActivity.class));
+                showToast("You are in Favourite");
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void changeFavourite(int position) {
-        newsAdapter.changeFavourite(position);
+    public void showResult(List<GibddSource> list) {
+        newsAdapter.update(list);
     }
 
     @Override
-    public void showResult(List<GibddSource> list) {
-        newsAdapter.update(list);
-        newsAdapter.compareLists(newsPresenter.getListFromDB());
+    public void changeFavourite(int position) {
+        newsAdapter.changeFavourite(position);
     }
 
     @Override
